@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RS Notepad</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f0f0f0; margin: 0; padding: 0; }
+    .container { max-width: 800px; margin: 50px auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    input, textarea, button { width: 100%; padding: 10px; margin: 10px 0; border-radius: 5px; border: 1px solid #ccc; }
+    #notepad { display: none; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div id="login">
+    <h2>Login</h2>
+    <input type="text" id="userid" placeholder="Enter ID">
+    <input type="password" id="password" placeholder="Enter Password">
+    <button onclick="login()">Login</button>
+  </div>
+
+  <div id="notepad">
+    <h2>Welcome to RS Notepad</h2>
+    <textarea id="diary" rows="15" placeholder="Yahan apne mann ki baat likhiye... Hindi, English, Odia mein likhna sambhav hai."></textarea>
+    <button onclick="saveNote()">Save</button>
+    <p style="font-size: 14px; color: green;">(Note auto-save hota rahega)</p>
+  </div>
+</div>
+
+<script>
+  const correctID = "you&me";
+  const correctPassword = "prity_siddhu";
+
+  function login() {
+    const id = document.getElementById("userid").value;
+    const pass = document.getElementById("password").value;
+    if (id === correctID && pass === correctPassword) {
+      document.getElementById("login").style.display = "none";
+      document.getElementById("notepad").style.display = "block";
+      loadNote();
+    } else {
+      alert("Galat ID ya Password");
+    }
+  }
+
+  function saveNote() {
+    const content = document.getElementById("diary").value;
+    localStorage.setItem("rs_note", content);
+  }
+
+  function loadNote() {
+    const content = localStorage.getItem("rs_note");
+    if (content) {
+      document.getElementById("diary").value = content;
+    }
+  }
+
+  // Auto-save every 5 seconds
+  setInterval(() => {
+    if (document.getElementById("notepad").style.display === "block") {
+      saveNote();
+    }
+  }, 5000);
+</script>
+</body>
+</html>
